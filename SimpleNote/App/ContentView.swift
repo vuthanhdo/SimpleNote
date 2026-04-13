@@ -11,7 +11,8 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @StateObject private var viewModel: NotesViewModel
-    
+    @State private var showMemoryLeakDemo = false
+
     init() {
         // We'll properly initialize this with DI in the body
         _viewModel = StateObject(wrappedValue: NotesViewModel(
@@ -24,7 +25,17 @@ struct ContentView: View {
     }
 
     var body: some View {
-        NotesListViewWrapper()
+        TabView {
+            NotesListViewWrapper()
+                .tabItem {
+                    Label("Notes", systemImage: "note.text")
+                }
+
+            MemoryLeakDemoView()
+                .tabItem {
+                    Label("Memory Leaks", systemImage: "memorychip")
+                }
+        }
     }
 }
 
